@@ -1,0 +1,11 @@
+import { mkdirSync, existsSync, writeFileSync } from 'node:fs';
+import { randomBytes, scryptSync } from 'node:crypto';
+if (existsSync('.env.local')) throw new Error('.env.local already exists; existing access credentials were preserved.');
+const password = randomBytes(24).toString('base64url');
+const salt = randomBytes(16).toString('hex');
+const hash = `${salt}:${scryptSync(password, salt, 64).toString('hex')}`;
+const secret = randomBytes(48).toString('base64url');
+writeFileSync('.env.local', `ARENA_ADMIN_PASSWORD_HASH=${hash}\nARENA_SESSION_SECRET=${secret}\nARENA_STORAGE=local\n`, { mode: 0o600 });
+mkdirSync('outputs', { recursive: true });
+writeFileSync('outputs/arena-acesso-privado.txt', `ARENA — ACESSO PRIVADO\n\nChave de acesso: ${password}\n\nGuarde este arquivo em local seguro. Ele permite abrir o painel do time.\nA publicação usa a mesma chave apenas quando configurada com as variáveis desta instalação.\nNão inclua este arquivo no GitHub.\n`, { mode: 0o600 });
+console.log('Acesso local preparado. Chave salva apenas no arquivo privado em outputs; nenhum segredo foi exibido.');

@@ -1,0 +1,11 @@
+.vercel
+.arena
+work
+outputs
+.git
+node_modules
+.next
+dist
+.wrangler
+.sites-runtime
+.env*

@@ -44,3 +44,9 @@ next-env.d.ts
 /.codex/
 /outputs/
 /work/
+/.vercel/
+/.arena/
+*.tsbuildinfo
+!.env.example
+.vercel
+.env*
